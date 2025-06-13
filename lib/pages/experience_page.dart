@@ -1,124 +1,437 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
 
-class ExperiencePage extends StatelessWidget {
-  const ExperiencePage({super.key});
+class ExperienceScreen extends StatefulWidget {
+  @override
+  _ExperienceScreenState createState() => _ExperienceScreenState();
+}
 
-  final List<ExperienceItem> experienceList = const [
-    ExperienceItem(
-      company: 'Agencia Creativa PinkCode',
-      role: 'Flutter Developer',
-      period: '2022 - Presente',
-      description:
-          'Desarrollo de apps móviles y web con Flutter. Implementación de arquitectura limpia, integración con Firebase, diseño responsive y trabajo colaborativo con diseñadores UI/UX.',
-    ),
-    ExperienceItem(
-      company: 'Startup NovaApps',
-      role: 'Junior Flutter Dev',
-      period: '2021 - 2022',
-      description:
-          'Creación de módulos interactivos para apps educativas. Mantenimiento de código, migración a null safety y pruebas de UI.',
-    ),
+class _ExperienceScreenState extends State<ExperienceScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late List<AnimationController> _cardControllers;
+
+  final List<Map<String, dynamic>> experiences = [
+    {
+      'title': 'Flutter Developer',
+      'company': 'Agencia Creativa PinkCode',
+      'period': '2022 - Presente',
+      'description': 'Desarrollo de apps móviles y web con Flutter. Implementación de arquitectura limpia, integración con Firebase, diseño responsivo y trabajo colaborativo con diseñadores UI/UX.',
+      'color': Color(0xFF02569B),
+      'icon': Icons.smartphone,
+      'current': true,
+    },
+    {
+      'title': 'Junior Flutter Dev',
+      'company': 'Startup NovaApps',
+      'period': '2021 - 2022',
+      'description': 'Creación de módulos interactivos para apps educativas. Mantenimiento de código, migración a null safety y pruebas de UI.',
+      'color': Color(0xFF4CAF50),
+      'icon': Icons.code,
+      'current': false,
+    },
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 1000),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+    _cardControllers = List.generate(
+      experiences.length,
+      (index) => AnimationController(
+        duration: Duration(milliseconds: 800),
+        vsync: this,
+      ),
+    );
+
+    _controller.forward();
+    _animateCards();
+  }
+
+  void _animateCards() async {
+    for (int i = 0; i < _cardControllers.length; i++) {
+      await Future.delayed(Duration(milliseconds: 200));
+      _cardControllers[i].forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    for (var controller in _cardControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
-      appBar: AppBar(
-        title: const Text('Experiencia'),
-        centerTitle: true,
-        backgroundColor: AppTheme.primaryColor,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF667eea),
+              Color(0xFF764ba2),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              _buildHeader(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: _buildContent(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Experiencia Laboral 💼',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.pinkAccent,
+    );
+  }
+
+  Widget _buildHeader() {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
+                size: 20,
               ),
             ),
-            const SizedBox(height: 20),
-            ...experienceList.map((exp) => _ExperienceCard(exp: exp)),
+          ),
+          SizedBox(width: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Experiencia',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Mi trayectoria profesional',
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.8),
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          children: [
+            _buildTimelineHeader(),
+            SizedBox(height: 30),
+            ...experiences.asMap().entries.map((entry) {
+              int index = entry.key;
+              Map<String, dynamic> experience = entry.value;
+              
+              return _buildExperienceCard(
+                experience,
+                index,
+                _cardControllers[index],
+              );
+            }).toList(),
           ],
         ),
       ),
     );
   }
-}
 
-class ExperienceItem {
-  final String company;
-  final String role;
-  final String period;
-  final String description;
+  Widget _buildTimelineHeader() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 15,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFFF6B6B), Color(0xFFFFE66D)],
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              Icons.work_history,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Experiencia Laboral',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2D3748),
+                  ),
+                ),
+                Text(
+                  '3+ años desarrollando con Flutter',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF718096),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  const ExperienceItem({
-    required this.company,
-    required this.role,
-    required this.period,
-    required this.description,
-  });
-}
-
-class _ExperienceCard extends StatelessWidget {
-  final ExperienceItem exp;
-
-  const _ExperienceCard({required this.exp});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.pink.shade50,
-      margin: const EdgeInsets.only(bottom: 16),
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Icon(Icons.work_outline, color: Colors.pinkAccent, size: 32),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildExperienceCard(
+    Map<String, dynamic> experience,
+    int index,
+    AnimationController controller,
+  ) {
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, 50 * (1 - controller.value)),
+          child: Opacity(
+            opacity: controller.value,
+            child: Container(
+              margin: EdgeInsets.only(bottom: 24),
+              child: Stack(
                 children: [
-                  Text(
-                    exp.role,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.pink,
+                  // Timeline line
+                  if (index < experiences.length - 1)
+                    Positioned(
+                      left: 25,
+                      top: 80,
+                      bottom: -24,
+                      child: Container(
+                        width: 2,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              experience['color'].withOpacity(0.3),
+                              Colors.transparent,
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  Text(
-                    exp.company,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    exp.period,
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    exp.description,
-                    style: const TextStyle(fontSize: 14),
+                  
+                  // Main card
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Timeline dot
+                      Container(
+                        margin: EdgeInsets.only(top: 25),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: experience['color'],
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: experience['color'].withOpacity(0.3),
+                                    blurRadius: 10,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                experience['icon'],
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ),
+                            if (experience['current'])
+                              Positioned(
+                                top: -2,
+                                right: -2,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFF10B981),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      
+                      // Card content
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.08),
+                                blurRadius: 15,
+                                offset: Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          experience['title'],
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF2D3748),
+                                          ),
+                                        ),
+                                        SizedBox(height: 4),
+                                        Text(
+                                          experience['company'],
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: experience['color'],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (experience['current'])
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF10B981).withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        'Actual',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF10B981),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: experience['color'].withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Text(
+                                  experience['period'],
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: experience['color'],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                experience['description'],
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF4A5568),
+                                  height: 1.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

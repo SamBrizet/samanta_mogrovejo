@@ -19,11 +19,11 @@ class MyResumeApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => ResumeHomePage(),
-        '/about': (context) => AboutPage(),
-        '/skills': (context) => SkillsPage(),
-        '/experience': (context) => ExperiencePage(),
-        '/education': (context) => EducationPage(),
-        '/contact': (context) => ContactPage(),
+        '/about': (context) => AboutScreen(),
+        '/skills': (context) => SkillsScreen(),
+        '/experience': (context) => ExperienceScreen(),
+        '/education': (context) => EducationScreen(),
+        '/contact': (context) => ContactScreen(),
       },
     );
   }

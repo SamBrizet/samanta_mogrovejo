@@ -1,98 +1,197 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ContactPage extends StatelessWidget {
-  const ContactPage({super.key});
+
+
+class ContactScreen extends StatefulWidget {
+  @override
+  _ContactScreenState createState() => _ContactScreenState();
+}
+
+class _ContactScreenState extends State<ContactScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  final List<Map<String, dynamic>> contactMethods = [
+    {
+      'title': 'Email',
+      'value': 'samanta.brizet@email.com',
+      'icon': Icons.email_outlined,
+      'color': Color(0xFF3B82F6),
+      'action': 'mailto:samanta.brizet@email.com',
+    },
+    {
+      'title': 'Teléfono',
+      'value': '+51 987 654 321',
+      'icon': Icons.phone_outlined,
+      'color': Color(0xFF10B981),
+      'action': 'tel:+51987654321',
+    },
+    {
+      'title': 'LinkedIn',
+      'value': '/in/samanta-brizet',
+      'icon': Icons.business_center_outlined,
+      'color': Color(0xFF0077B5),
+      'action': 'https://linkedin.com/in/samanta-brizet',
+    },
+    {
+      'title': 'GitHub',
+      'value': 'github.com/samantabrizet',
+      'icon': Icons.code_outlined,
+      'color': Color(0xFF333333),
+      'action': 'https://github.com/samantabrizet',
+    },
+    {
+      'title': 'Ubicación',
+      'value': 'Lima, Perú',
+      'icon': Icons.location_on_outlined,
+      'color': Color(0xFFFF6B6B),
+      'action': null,
+    },
+  ];
 
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 1200),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+     _slideAnimation = Tween<Offset>(
+      begin: Offset(0, 0.2),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.elasticOut,
+    ));
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+   void _handleContactTap(String? action) async {
+    if (action == null) return;
+    if (action.startsWith('mailto:') || action.startsWith('tel:') || action.startsWith('https://')) {
+      final Uri url = Uri.parse(action);
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      }
+    }
+  }
+
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.primaryColor,
-        title: const Text('Contacto'),
-        centerTitle: true,
+        title: Text('Contacto'),
+        backgroundColor: Color(0xFF667eea),
+        foregroundColor: Colors.white,
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              '¡Hablemos! 💬',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.pinkAccent,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            _ContactCard(
-              icon: Icons.email,
-              title: 'Correo',
-              subtitle: 'samanta.dev@gmail.com',
-              onTap: () {
-                // Aquí podrías implementar launchEmail
-              },
-            ),
-            _ContactCard(
-              icon: Icons.phone,
-              title: 'Teléfono',
-              subtitle: '+51 999 888 777',
-            ),
-            _ContactCard(
-              icon: Icons.link,
-              title: 'LinkedIn',
-              subtitle: 'linkedin.com/in/samantabrizet',
-              onTap: () {
-                // lanzar URL con url_launcher
-              },
-            ),
-            _ContactCard(
-              icon: Icons.code,
-              title: 'GitHub',
-              subtitle: 'github.com/samantadev',
-              onTap: () {
-                // lanzar URL con url_launcher
-              },
-            ),
-          ],
+      body: FadeTransition(
+        opacity: _fadeAnimation,
+        child: SlideTransition(
+          position: _slideAnimation,
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+            itemCount: contactMethods.length,
+            separatorBuilder: (_, __) => SizedBox(height: 20),
+            itemBuilder: (context, index) {
+              final method = contactMethods[index];
+              return InkWell(
+                onTap: method['action'] != null
+                    ? () => _handleContactTap(method['action'])
+                    : null,
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.18),
+                      width: 1,
+                    ),
+                  ),
+                    child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: method['color'].withOpacity(0.18),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          method['icon'],
+                          color: method['color'],
+                          size: 26,
+                        ),
+                      ),
+                      SizedBox(width: 18),
+                     // ...existing code...
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              method['title'],
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              method['value'],
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (method['action'] != null)
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white.withOpacity(0.7),
+                          size: 16,
+                        ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
+      backgroundColor: Color(0xFF764ba2),
     );
   }
 }
 
-class _ContactCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final VoidCallback? onTap;
+                    
+                    
 
-  const _ContactCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    this.onTap,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: ListTile(
-        leading: Icon(icon, color: AppTheme.primaryColor, size: 30),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(subtitle),
-        onTap: onTap,
-        trailing: onTap != null ? const Icon(Icons.open_in_new) : null,
-      ),
-    );
-  }
-}
+
+

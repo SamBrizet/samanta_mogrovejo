@@ -206,7 +206,7 @@ class ResumeHomePageState extends State<ResumeHomePage>
               title: item['title'],
               icon: item['icon'],
               onTap: () {
-                // Navigator.pushNamed(context, item['route']);
+                 Navigator.pushNamed(context, item['route']);
               },
               delay: index * 200,
             ),
