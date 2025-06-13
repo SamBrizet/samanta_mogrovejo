@@ -72,7 +72,9 @@ class ResumeHomePageState extends State<ResumeHomePage>
             children: [
               _buildHeader(),
               Expanded(
-                child: _buildContent(),
+                child: SingleChildScrollView(
+                  child: _buildContent(),
+                ),
               ),
             ],
           ),
