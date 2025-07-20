@@ -13,9 +13,9 @@ class _EducationScreenState extends State<EducationScreen>
 
   final List<Map<String, dynamic>> educationData = [
     {
-      'title': 'Ingeniería de Sistemas',
-      'institution': 'Universidad Nacional Mayor de San Marcos',
-      'period': '2018 - 2023',
+      'title': 'Desarrollo de sistemas e información',
+      'institution': 'IESTP San Pedro del valle de mala',
+      'period': '2017 - 2019',
       'type': 'Pregrado',
       'description': 'Formación integral en desarrollo de software, bases de datos, arquitectura de sistemas y metodologías ágiles.',
       'color': Color(0xFF3B82F6),
@@ -23,35 +23,26 @@ class _EducationScreenState extends State<EducationScreen>
       'status': 'Completado',
     },
     {
-      'title': 'Desarrollo Mobile con Flutter',
-      'institution': 'Google Developer Expert Program',
-      'period': '2022',
+      'title': 'Máster en PHP 8, POO, MVC, MySQL, Laravel 8, CodeIgniter 4',
+      'institution': 'UDEMY (curso online)',
+      'period': '2023(6 meses)',
       'type': 'Certificación',
-      'description': 'Certificación avanzada en desarrollo móvil multiplataforma con Flutter y Dart.',
+      'description': 'Certificación avanzada en desarrollo backend y frontend con PHP 8, programación orientada a objetos, patrones MVC, gestión de bases de datos MySQL y frameworks modernos como Laravel 8 y CodeIgniter 4.',
       'color': Color(0xFF10B981),
       'icon': Icons.verified,
       'status': 'Certificado',
     },
     {
-      'title': 'Firebase & Cloud Functions',
-      'institution': 'Google Cloud Platform',
+      'title': 'Curso Profesional de Git y GitHub',
+      'institution': 'PLATZI (curso online)',
       'period': '2023',
-      'type': 'Especialización',
-      'description': 'Especialización en servicios backend, autenticación, bases de datos en tiempo real y funciones cloud.',
+      'type': 'Certificación',
+     'description': 'Certificación profesional en control de versiones con Git y gestión de proyectos colaborativos en GitHub, incluyendo ramas, pull requests, flujos de trabajo y buenas prácticas para el desarrollo de software.',
       'color': Color(0xFFFF6B6B),
       'icon': Icons.cloud,
       'status': 'Certificado',
     },
-    {
-      'title': 'UI/UX Design Fundamentals',
-      'institution': 'Figma Academy',
-      'period': '2021',
-      'type': 'Curso',
-      'description': 'Fundamentos de diseño de interfaces, prototipado y experiencia de usuario.',
-      'color': Color(0xFF8B5CF6),
-      'icon': Icons.design_services,
-      'status': 'Completado',
-    },
+   
   ];
 
   @override

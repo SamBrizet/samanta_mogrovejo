@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../theme/colors.dart';
 
 class SectionTitle extends StatelessWidget {
   final String title;
@@ -14,7 +15,7 @@ class SectionTitle extends StatelessWidget {
         style: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
-          color: AppTheme.accentColor,
+          color: AppColors.textPrimary,
         ),
         textAlign: TextAlign.center,
       ),

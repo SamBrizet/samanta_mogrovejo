@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'colors.dart';
 
 class AppTheme {
-  static const Color primaryColor = Color(0xFFFFC0CB);
-  static const Color accentColor = Color(0xFFF48FB1);
-  static const Color textColor = Color(0xFF333333);
-  static const Color backgroundColor = Color(0xFFFFF0F5);
+   const AppTheme._();   
 
   static final ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: backgroundColor,
-    colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
-    textTheme: GoogleFonts.poppinsTextTheme(),
-    useMaterial3: true,
+     useMaterial3: true,
+     primaryColor: AppColors.primary,
+     colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
+     scaffoldBackgroundColor: AppColors.backgroundLight,
+      textTheme: GoogleFonts.poppinsTextTheme().apply(
+      bodyColor: AppColors.textDark,
+      displayColor: AppColors.textDark,
+    ),
+     appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.textLight,
+      elevation: 0,
+    ),
+    iconTheme: const IconThemeData(color: AppColors.textDark),
   );
+    
 }

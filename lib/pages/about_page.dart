@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../theme/colors.dart'; 
 class AboutScreen extends StatefulWidget {
   @override
   _AboutScreenState createState() => _AboutScreenState();
@@ -53,8 +53,8 @@ class _AboutScreenState extends State<AboutScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF667eea),
-              Color(0xFF764ba2),
+              AppColors.gradientStart,
+              AppColors.gradientMiddle,
             ],
           ),
         ),
@@ -146,8 +146,8 @@ class _AboutScreenState extends State<AboutScreen>
       child: Column(
         children: [
           Container(
-            width: 100,
-            height: 100,
+            width: 200,
+            height: 200,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
@@ -164,11 +164,10 @@ class _AboutScreenState extends State<AboutScreen>
                 ),
               ],
             ),
-            child: Icon(
-              Icons.person,
-              size: 50,
-              color: Colors.white,
-            ),
+            child:  CircleAvatar(
+  radius: 36, // Cambia este valor para hacerlo más grande
+  backgroundImage: AssetImage('assets/images/profile.webp'),
+),
           ),
           SizedBox(height: 20),
           Text(
@@ -203,7 +202,7 @@ class _AboutScreenState extends State<AboutScreen>
           ),
           SizedBox(height: 20),
           Text(
-            'Soy desarrolladora Flutter con 3 años de experiencia creando interfaces bonitas, intuitivas y responsivas. Me apasiona el diseño y la tecnología, y disfruto convertir ideas en experiencias visuales fluidas. Trabajo con amor en cada línea de código 💜.',
+            'Soy desarrolladora Flutter con 3 años de experiencia creando interfaces bonitas, intuitivas y responsivas. Me apasiona el diseño y la tecnología, y disfruto convertir ideas en experiencias visuales fluidas.',
             style: TextStyle(
               fontSize: 16,
               color: Color(0xFF4A5568),

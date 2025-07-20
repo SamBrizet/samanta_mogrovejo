@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../theme/colors.dart';
+
 class ResumeHomePage extends StatefulWidget {
   @override
   ResumeHomePageState createState() => ResumeHomePageState();
 }
 
-class ResumeHomePageState extends State<ResumeHomePage> 
+class ResumeHomePageState extends State<ResumeHomePage>
     with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late AnimationController _slideController;
@@ -60,9 +62,9 @@ class ResumeHomePageState extends State<ResumeHomePage>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF667eea),
-              Color(0xFF764ba2),
-              Color(0xFFf093fb),
+              AppColors.gradientStart,
+              AppColors.gradientMiddle,
+              AppColors.gradientEnd,
             ],
             stops: [0.0, 0.5, 1.0],
           ),
@@ -102,12 +104,12 @@ class ResumeHomePageState extends State<ResumeHomePage>
               ),
               child: Text(
                 'Samanta Brizet',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                ),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                    ),
               ),
             ),
           ),
@@ -137,30 +139,28 @@ class ResumeHomePageState extends State<ResumeHomePage>
     return Column(
       children: [
         Container(
-          width: 120,
-          height: 120,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              colors: [
-                Colors.white.withOpacity(0.3),
-                Colors.white.withOpacity(0.1),
+            width: 220,
+            height: 220,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white.withOpacity(0.3),
+                  Colors.white.withOpacity(0.1),
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 20,
+                  offset: Offset(0, 10),
+                ),
               ],
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
-                offset: Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Icon(
-            Icons.person,
-            size: 60,
-            color: Colors.white.withOpacity(0.8),
-          ),
-        ),
+            child: CircleAvatar(
+              radius: 36,
+              backgroundImage: AssetImage('assets/images/profile.webp'),
+            )),
         SizedBox(height: 24),
         Text(
           'Flutter Developer',
@@ -186,11 +186,28 @@ class ResumeHomePageState extends State<ResumeHomePage>
 
   Widget _buildMenuItems() {
     final menuItems = [
-      {'title': 'Acerca de mí', 'icon': Icons.person_outline, 'route': '/about'},
+      {
+        'title': 'Acerca de mí',
+        'icon': Icons.person_outline,
+        'route': '/about'
+      },
       {'title': 'Habilidades', 'icon': Icons.code, 'route': '/skills'},
-      {'title': 'Experiencia', 'icon': Icons.work_outline, 'route': '/experience'},
-      {'title': 'Educación', 'icon': Icons.school_outlined, 'route': '/education'},
+      {
+        'title': 'Experiencia',
+        'icon': Icons.work_outline,
+        'route': '/experience'
+      },
+      {
+        'title': 'Educación',
+        'icon': Icons.school_outlined,
+        'route': '/education'
+      },
       {'title': 'Contacto', 'icon': Icons.email_outlined, 'route': '/contact'},
+      {
+        'title': 'Mis Widgets',
+        'icon': Icons.widgets_outlined,
+        'route': '/mywidgets'
+      },
     ];
 
     return Container(
@@ -199,7 +216,7 @@ class ResumeHomePageState extends State<ResumeHomePage>
         children: menuItems.asMap().entries.map((entry) {
           int index = entry.key;
           Map<String, dynamic> item = entry.value;
-          
+
           return AnimatedContainer(
             duration: Duration(milliseconds: 300 + (index * 100)),
             curve: Curves.easeOutBack,
@@ -208,7 +225,7 @@ class ResumeHomePageState extends State<ResumeHomePage>
               title: item['title'],
               icon: item['icon'],
               onTap: () {
-                 Navigator.pushNamed(context, item['route']);
+                Navigator.pushNamed(context, item['route']);
               },
               delay: index * 200,
             ),
