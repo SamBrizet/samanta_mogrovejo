@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../widgets/custom_app_header.dart';
 
 
 
@@ -18,31 +19,31 @@ class _ContactScreenState extends State<ContactScreen>
   final List<Map<String, dynamic>> contactMethods = [
     {
       'title': 'Email',
-      'value': 'samanta.brizet@email.com',
+      'value': 'mogrovejosamanta@gmail.com',
       'icon': Icons.email_outlined,
       'color': Color(0xFF3B82F6),
-      'action': 'mailto:samanta.brizet@email.com',
+      'action': 'mailto:mogrovejosamanta@gmail.com',
     },
     {
       'title': 'Teléfono',
-      'value': '+51 987 654 321',
+      'value': '+51 960 501 484',
       'icon': Icons.phone_outlined,
       'color': Color(0xFF10B981),
-      'action': 'tel:+51987654321',
+      'action': 'tel:+51960501484',
     },
     {
       'title': 'LinkedIn',
-      'value': '/in/samanta-brizet',
+      'value': '/in/samanta-brizet-mogrovejo-tucto-b57658285/',
       'icon': Icons.business_center_outlined,
       'color': Color(0xFF0077B5),
-      'action': 'https://linkedin.com/in/samanta-brizet',
+      'action': 'https://linkedin.com/in/samanta-brizet-mogrovejo-tucto-b57658285/',
     },
     {
       'title': 'GitHub',
-      'value': 'github.com/samantabrizet',
+      'value': 'github.com/SamBrizet',
       'icon': Icons.code_outlined,
       'color': Color(0xFF333333),
-      'action': 'https://github.com/samantabrizet',
+      'action': 'https://github.com/SamBrizet',
     },
     {
       'title': 'Ubicación',
@@ -99,13 +100,26 @@ class _ContactScreenState extends State<ContactScreen>
     @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Contacto'),
-        backgroundColor: Color(0xFF667eea),
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: FadeTransition(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF667eea),
+              Color(0xFF764ba2),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+               CustomAppHeader(
+              title: 'Contacto',
+              subtitle: 'Ponte en contacto conmigo a través de los siguientes métodos:',
+            ),
+              Expanded(
+                child:  FadeTransition(
         opacity: _fadeAnimation,
         child: SlideTransition(
           position: _slideAnimation,
@@ -184,11 +198,20 @@ class _ContactScreenState extends State<ContactScreen>
           ),
         ),
       ),
+              ),
+            ],
+          ),
+        ),
+      ),
       backgroundColor: Color(0xFF764ba2),
     );
   }
-}
+    }
 
+            
+      
+      
+  
                     
                     
 

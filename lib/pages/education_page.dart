@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/custom_app_header.dart';
 
 class EducationScreen extends StatefulWidget {
   @override
@@ -106,7 +107,10 @@ class _EducationScreenState extends State<EducationScreen>
         child: SafeArea(
           child: Column(
             children: [
-              _buildHeader(),
+               CustomAppHeader(
+              title: 'Educación',
+              subtitle: 'Formación académica y certificaciones',
+            ),
               Expanded(
                 child: SingleChildScrollView(
                   child: _buildContent(),
@@ -119,52 +123,6 @@ class _EducationScreenState extends State<EducationScreen>
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.arrow_back_ios_new,
-                color: Colors.white,
-                size: 20,
-              ),
-            ),
-          ),
-          SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Educación',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Formación académica y certificaciones',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildContent() {
     return FadeTransition(
