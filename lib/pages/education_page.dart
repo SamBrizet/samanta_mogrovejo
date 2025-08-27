@@ -214,14 +214,14 @@ class _EducationScreenState extends State<EducationScreen>
               Expanded(
                 child: _buildStatItem(
                   '1',
-                  'Título\nUniversitario',
+                  'Título\nTécnico',
                   Color(0xFF3B82F6),
                   Icons.school,
                 ),
               ),
               Expanded(
                 child: _buildStatItem(
-                  '3',
+                  '2',
                   'Certificaciones\nTécnicas',
                   Color(0xFF10B981),
                   Icons.verified,
@@ -229,7 +229,7 @@ class _EducationScreenState extends State<EducationScreen>
               ),
               Expanded(
                 child: _buildStatItem(
-                  '5+',
+                  '4+',
                   'Años de\nEstudio',
                   Color(0xFFFF6B6B),
                   Icons.timeline,

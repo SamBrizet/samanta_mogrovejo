@@ -65,6 +65,8 @@ class MyWidgetsPage extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+     final colors = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: EdgeInsets.all(20),
       child: Row(
@@ -75,12 +77,12 @@ class MyWidgetsPage extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: colors.onSurface.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 Icons.arrow_back_ios_new,
-                color: Colors.white,
+                color: colors.onSurface,
                 size: 20,
               ),
             ),
@@ -92,7 +94,7 @@ class MyWidgetsPage extends StatelessWidget {
               Text(
                 'Mis Widgets',
                 style: TextStyle(
-                  color: Colors.white,
+                 color: colors.onSurface,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -100,7 +102,7 @@ class MyWidgetsPage extends StatelessWidget {
               Text(
                 'Ejemplos de widgets personalizados',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
+                  color: colors.onSurface.withOpacity(0.8),
                   fontSize: 14,
                 ),
               ),
@@ -125,6 +127,8 @@ class _WidgetSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -136,13 +140,13 @@ class _WidgetSection extends StatelessWidget {
           children: [
             Text(title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
+                     color: colors.onSurface,
                       fontWeight: FontWeight.bold,
                     )),
             SizedBox(height: 6),
             Text(description,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white70,
+                       color: colors.onSurface.withOpacity(0.7),
                     )),
             SizedBox(height: 18),
             child,

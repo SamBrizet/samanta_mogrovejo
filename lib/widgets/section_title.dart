@@ -8,6 +8,8 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final colors = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24.0),
       child: Text(
@@ -15,7 +17,7 @@ class SectionTitle extends StatelessWidget {
         style: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
-          color: AppColors.textPrimary,
+           color: colors.onPrimary,
         ),
         textAlign: TextAlign.center,
       ),

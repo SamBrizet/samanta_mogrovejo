@@ -33,10 +33,11 @@ class _ContactScreenState extends State<ContactScreen>
     },
     {
       'title': 'LinkedIn',
-      'value': '/in/samanta-brizet-mogrovejo-tucto-b57658285/',
+      'value': '/in/samanta-mogrovejo-b57658285/',
       'icon': Icons.business_center_outlined,
       'color': Color(0xFF0077B5),
-      'action': 'https://linkedin.com/in/samanta-brizet-mogrovejo-tucto-b57658285/',
+      'action':  'https://www.linkedin.com/in/samanta-mogrovejo-b57658285/',
+                  
     },
     {
       'title': 'GitHub',
