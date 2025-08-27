@@ -344,6 +344,8 @@ class _EducationScreenState extends State<EducationScreen>
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF2D3748),
                               ),
+                               maxLines: 3, 
+                                 overflow: TextOverflow.ellipsis, 
                             ),
                             SizedBox(height: 4),
                             Text(
@@ -353,6 +355,8 @@ class _EducationScreenState extends State<EducationScreen>
                                 fontWeight: FontWeight.w600,
                                 color: education['color'],
                               ),
+                                maxLines: 2, 
+                                 overflow: TextOverflow.ellipsis, 
                             ),
                           ],
                         ),
