@@ -66,7 +66,6 @@ class MyWidgetsPage extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
      final colors = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: EdgeInsets.all(20),
       child: Row(
@@ -128,7 +127,6 @@ class _WidgetSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
