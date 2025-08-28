@@ -35,7 +35,8 @@ class CustomAppHeader extends StatelessWidget {
             ),
           ),
           SizedBox(width: 20),
-          Column(
+          Expanded(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -46,15 +47,20 @@ class CustomAppHeader extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
+               Text(
                 subtitle,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.8),
                   fontSize: 14,
                 ),
               ),
+
+              
             ],
           ),
+
+          )
+          
         ],
       ),
     );
